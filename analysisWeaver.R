@@ -14,7 +14,7 @@ require(synapseClient)
 #####
 ## step 1 - randomly generate the training and validation sets
 #####
-codeOne <- loadEntity('synxxxx')
+codeOne <- loadEntity('syn299501')
 attach(codeOne)
 invisible(edit(generateCohorts))
 
@@ -28,7 +28,7 @@ names(returnOne)
 #####
 ## step 2 - fit a random forest model to the data (A) and then validate on held out samples (B)
 #####
-codeTwo <- loadEntity('synyyyy')
+codeTwo <- loadEntity('syn308266')
 attach(codeTwo)
 
 ## substep (A)

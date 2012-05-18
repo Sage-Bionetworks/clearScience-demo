@@ -11,18 +11,21 @@ buildModel <- function(returnOne){
   require(randomForest)
   
   ## BINARY MODEL OF 'ER Status' USING rf
+  cat("[1] Fitting random forest model for ER on training set\n")
   rfERFit <- randomForest(t(returnOne$trainExpress), 
                            factor(returnOne$trainScore), 
                            ntree = 50,
                            do.trace = 5)
   
   # EVALUATE AND VISUALIZE TRAINING Y-HAT
+  cat("[2] Evaluating predictions on training set\n")
   trainScoreHat <- predict(rfERFit, t(returnOne$trainExpress),
                            type = "prob")
   trainScoreHat <- trainScoreHat[ , 2]
   
   trainScoreDF <- as.data.frame(cbind(returnOne$trainScore, trainScoreHat))
   colnames(trainScoreDF) <- c("yTrain", "yTrainHat")
+  cat("[3] Producting diagnostic boxplot of predictions on training set\n")
   trainBoxPlot <- ggplot(trainScoreDF, aes(factor(yTrain), yTrainHat)) + 
     geom_boxplot() +
     geom_jitter(aes(colour = as.factor(yTrain)), size = 4) +
@@ -55,10 +58,13 @@ validateModel <- function(returnTwo){
   validScore <- returnTwo$returnOne$validScore
   
   # VALIDATE & VISUALIZE WITH HELD OUT VALIDATION COHORT
+  cat("[1] Evaluating predictions on held out validation set\n")
   validScoreHat <- predict(rfERFit, t(validExpress), type = "prob")
   validScoreHat <- validScoreHat[ , 2]
   validScoreDF <- as.data.frame(cbind(validScore, validScoreHat))
   colnames(validScoreDF) <- c("yValid", "yValidHat")
+
+  cat("[2] Producing diagnostic boxplot of predictions in the held out validation set\n")
   validBoxPlot <- ggplot(validScoreDF, aes(factor(yValid), yValidHat)) + 
     geom_boxplot() +
     geom_jitter(aes(colour = as.factor(yValid)), size = 4) +
@@ -68,6 +74,7 @@ validateModel <- function(returnTwo){
     opts(plot.title = theme_text(size = 14))
   
   # Alternative visualization (density plots)
+  cat("[3] Producing diagnostic density plot of predictions in the held out validation set\n")
   validDensPlot <- ggplot(validScoreDF, 
                           aes(yValidHat, 
                               fill = factor(yValid))) + 
@@ -94,6 +101,7 @@ validateModel <- function(returnTwo){
                          validScoreHat[validScore == 1])
   
   ## CREATE A ROC CURVE USING GGPLOT
+  cat("[4] Assessing model performance via ROC curve in held out validation set\n")
   dfPerf <- as.data.frame(cbind(unlist(erPerf@x.values),
                                 unlist(erPerf@y.values)))
   colnames(dfPerf) <- c("FalsePositiveRate", "TruePositiveRate")

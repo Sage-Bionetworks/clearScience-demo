@@ -10,16 +10,15 @@ generateCohorts <- function(){
   require(synapseClient)
   require(Biobase)
 
-  # LOGIN TO SYNAPSE
-  #synapseLogin()
-
   # LOAD THE SYNAPSE ENTITY INTO MEMORY
+  cat("[1] Loading TRANSBIG breast cancer dataset\n")
   dataEnt <- loadEntity(169192)
   transbig <- dataEnt$objects$transbig
   expressData <- exprs(transbig)
   pheno <- phenoData(transbig)
 
   ## CREATE TRAINING AND VALIDATION COHORTS
+  cat("[2] Randomly splitting into training and validation sets\n")
   set.seed(031512)
   randVec <- rbinom(dim(transbig)[2], size = 1, prob = 0.5)
   trainExpress <- expressData[ , randVec == 0]
