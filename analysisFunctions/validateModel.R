@@ -1,50 +1,10 @@
-# codeEntityTwo.R
+# validateModel.R
 
-# Code Entity 2 of the clearScience Demo Project
-# Taking the output from Code Entity 1, generating a model for ER status
-
-
-## CODE ENTITY TWO: FUNCTION A
-buildModel <- function(returnOne){
-  # SOURCE NECESSARY LIBRARIES
-  require(ggplot2)
-  require(randomForest)
-  
-  ## BINARY MODEL OF 'ER Status' USING rf
-  cat("[1] Fitting random forest model for ER on training set\n")
-  rfERFit <- randomForest(t(returnOne$trainExpress), 
-                           factor(returnOne$trainScore), 
-                           ntree = 50,
-                           do.trace = 5)
-  
-  # EVALUATE AND VISUALIZE TRAINING Y-HAT
-  cat("[2] Evaluating predictions on training set\n")
-  trainScoreHat <- predict(rfERFit, t(returnOne$trainExpress),
-                           type = "prob")
-  trainScoreHat <- trainScoreHat[ , 2]
-  
-  trainScoreDF <- as.data.frame(cbind(returnOne$trainScore, trainScoreHat))
-  colnames(trainScoreDF) <- c("yTrain", "yTrainHat")
-  cat("[3] Producting diagnostic boxplot of predictions on training set\n")
-  trainBoxPlot <- ggplot(trainScoreDF, aes(factor(yTrain), yTrainHat)) + 
-    geom_boxplot() +
-    geom_jitter(aes(colour = as.factor(yTrain)), size = 4) +
-    opts(title = "ER rf Model Training Set Hat") +
-    ylab("Training Set ER Prediction") +
-    xlab("True ER Status") +
-    opts(plot.title = theme_text(size = 14))
-  
-  
-  return(list("rfERFit " = rfERFit,
-              "trainBoxPlot" = trainBoxPlot,
-              "returnOne" = returnOne)) # Workaround here
-}
+# third piece of code for the clearScience Demo Project
+# takes the output from buildModel(), and fits that model
+# on held out validation data
 
 
-
-
-
-## CODE ENTITY TWO: FUNCTION B
 validateModel <- function(returnTwo){
   
   # SOURCE LIBRARIES

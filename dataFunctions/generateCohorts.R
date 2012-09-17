@@ -1,11 +1,12 @@
-# codeEntityOne.R
+# generateCohorts.R
 
-# Code Entity 1 of the clearScience Demo Project
-# Taking the full TRANSBIG breast cancer dataset and randomly dividing it into
+# first piece of code for the clearScience demo project
+# takes the full TRANSBIG breast cancer dataset and randomly divides it into
 # "training" and "validation" cohorts and concomitantly dividing the clinical
 # "ER Status" phenotype along with the cohorts
 
 generateCohorts <- function(){
+  
   # SOURCE IN NECESSARY LIBRARIES
   require(synapseClient)
   require(Biobase)
@@ -19,7 +20,7 @@ generateCohorts <- function(){
 
   ## CREATE TRAINING AND VALIDATION COHORTS
   cat("[2] Randomly splitting into training and validation sets\n")
-  set.seed(031512)
+  set.seed(931512)
   randVec <- rbinom(dim(transbig)[2], size = 1, prob = 0.5)
   trainExpress <- expressData[ , randVec == 0]
   validExpress <- expressData[ , randVec == 1]
