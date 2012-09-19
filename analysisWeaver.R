@@ -15,7 +15,8 @@ require(rGithubClient)
 #####
 ## GET THE clearScience GITHUB REPOSITORY
 #####
-clearScienceRepo <- getRepo("Sage-Bionetworks/clearScience-demo")
+clearScienceRepo <- getRepo("Sage-Bionetworks/clearScience-demo",
+                            ref="tag", refName="v0.9-11")
 clearScienceRepo
 view(clearScienceRepo)
 
