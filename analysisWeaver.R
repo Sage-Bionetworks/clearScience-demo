@@ -23,19 +23,19 @@ view(clearScienceRepo)
 #####
 ## PULL IN THE FUNCTION TO GENERATE TRAINING AND TESTING COHORTS
 #####
-generationCode <- sourceRepoFile(repository=clearScienceRepo, 
-                                 repositoryPath="dataFunctions/generateCohorts.R")
+sourceRepoFile(repository=clearScienceRepo, 
+               repositoryPath="dataFunctions/generateCohorts.R")
 
-cohorts <- generationCode$generateCohorts()
+cohorts <- generateCohorts()
 names(cohorts)
 
 #####
 ## PULL IN THE FUNCTION FOR FITTING A TRAINING MODEL
 #####
-buildCode <- sourceRepoFile(repository=clearScienceRepo, 
-                            repositoryPath="analysisFunctions/buildModel.R")
+sourceRepoFile(repository=clearScienceRepo, 
+               repositoryPath="analysisFunctions/buildModel.R")
 
-trainOutput <- buildCode$buildModel(cohorts)
+trainOutput <- buildModel(cohorts)
 names(trainOutput)
 trainOutput$trainBoxPlot
 
@@ -43,10 +43,10 @@ trainOutput$trainBoxPlot
 ## PULL IN THE FUNCTION FOR VALIDATING MODEL IN HELD OUT TESTING SET
 #####
 view(clearScienceRepo, "analysisFunctions/validateModel.R")
-validateCode <- sourceRepoFile(repository=clearScienceRepo, 
-                               repositoryPath="analysisFunctions/validateModel.R")
+sourceRepoFile(repository=clearScienceRepo, 
+               repositoryPath="analysisFunctions/validateModel.R")
 
-valOutput <- validateCode$validateModel(trainOutput)
+valOutput <- validateModel(trainOutput)
 names(valOutput)
 valOutput$validBoxPlot
 valOutput$validDensPlot
