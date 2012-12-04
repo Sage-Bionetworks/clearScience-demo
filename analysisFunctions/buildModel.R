@@ -29,10 +29,9 @@ buildModel <- function(returnOne){
   trainBoxPlot <- ggplot(trainScoreDF, aes(factor(yTrain), yTrainHat)) + 
     geom_boxplot() +
     geom_jitter(aes(colour = as.factor(yTrain)), size = 4) +
-    opts(title = "ER rf Model Training Set Hat") +
+    ggtitle("ER rf Model Training Set Hat\n") +
     ylab("Training Set ER Prediction") +
-    xlab("True ER Status") +
-    opts(plot.title = theme_text(size = 14))
+    xlab("True ER Status")
   
   return(list("rfERFit" = rfERFit,
               "trainBoxPlot" = trainBoxPlot,

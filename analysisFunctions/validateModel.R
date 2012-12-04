@@ -28,10 +28,9 @@ validateModel <- function(returnTwo){
   validBoxPlot <- ggplot(validScoreDF, aes(factor(yValid), yValidHat)) + 
     geom_boxplot() +
     geom_jitter(aes(colour = as.factor(yValid)), size = 4) +
-    opts(title = "ER Random Forest Model Indepenedent Validation Set") +
+    ggtitle("ER Random Forest Model Independent Validation Set\n") +
     ylab("Validation Set ER Prediction") +
-    xlab("True ER Status") +
-    opts(plot.title = theme_text(size = 14))
+    xlab("True ER Status")
   
   # Alternative visualization (density plots)
   cat("[3] Producing diagnostic density plot of predictions in the held out validation set\n")
@@ -41,7 +40,7 @@ validateModel <- function(returnTwo){
                                 geom_density(alpha = 0.3) +
                                 ylab("Density") +
                                 xlab("True ER Status") +
-                                opts(plot.title = theme_text(size = 14))
+                                ggtitle("Density Plot")
   
   # EVALUATE VALIDATION MODEL PERFORMANCE
   erPred <- prediction(as.numeric(validScoreHat), as.numeric(validScore))
@@ -69,10 +68,9 @@ validateModel <- function(returnTwo){
   rocCurve <- ggplot(dfPerf, aes(FalsePositiveRate, TruePositiveRate)) +
     geom_line() + 
     geom_abline(slope = 1, colour = "red") +
-    opts(title = "Validation Cohort ROC Curve") +
+    ggtitle("Validation Cohort ROC Curve\n") +
     ylab("False Positive Rate") +
-    xlab("True Positive Rate") +
-    opts(plot.title = theme_text(size = 14))
+    xlab("True Positive Rate")
   
   ## RETURN
   return(list("validScoreDF" = validScoreDF,
